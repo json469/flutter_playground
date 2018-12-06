@@ -15,23 +15,25 @@ class LocationDetail extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _section("One!", Colors.red),
-            _section("Two!", Colors.blue),
-            _section("Three!", Colors.green),
-            _section("Four!", Colors.yellow),
-            _section("Five!", Colors.grey),
-          ],
+          children: _renderFacts(location),
         )
       );
   }
 
-  Widget _section(String title, Color color) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-      ),
-      child: Text(title),
-    );
+  List<Widget> _renderFacts(Location location) {
+    var result = List<Widget>();
+    location.facts.forEach((fact) {
+      result.add(_sectionTitle(fact.title));
+      result.add(_sectionText(fact.text));
+    });
+    return result;
+  }
+
+  Widget _sectionTitle(String title) {
+    return Text(title);
+  }
+
+  Widget _sectionText(String text) {
+    return Text(text);
   }
 }
