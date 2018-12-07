@@ -12,7 +12,7 @@ class LocationList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Locations", style: Styles.navBarTitle)),
+        title: Text("Locations")),
         body: ListView.builder(
           itemCount: this.locations.length,
           itemBuilder: _listViewItemBuilder,
