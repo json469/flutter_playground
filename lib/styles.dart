@@ -17,6 +17,10 @@ class Styles {
     color: _textColorDefault,
   );
 
+  static final navBarTitle = TextStyle(
+    fontSize: _textSizeDefault,
+    color: _textColorDefault,
+  );
   static Color _hexToColor(String code) {
     return Color(int.parse(code.substring(0, 6), radix: 16) + 0xFF000000);
   }
