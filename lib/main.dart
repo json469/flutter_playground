@@ -4,7 +4,7 @@ import 'mocks/mock_location.dart';
 
 void main() {
 
-  final mockLocations = MockLocation.FetchAll();
+  final mockLocations = MockLocation.fetchAll();
 
   return runApp(MaterialApp(
     home: LocationList(mockLocations)
