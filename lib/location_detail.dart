@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'models/location.dart';
+import 'styles.dart';
 
 class LocationDetail extends StatelessWidget {
 
@@ -39,20 +40,21 @@ class LocationDetail extends StatelessWidget {
   Widget _sectionTitle(String title) {
     return Container(
       padding: EdgeInsets.fromLTRB(25.0, 25.0, 25.0, 5.0),
-      child: Text(title,
-        textAlign: TextAlign.left,
-        style: TextStyle(
-          fontSize: 25.0,
-          color: Colors.black,
+      child:
+        Text(
+          title,
+          style: Styles.headerLarge
         )
-      )
     );
   }
 
   Widget _sectionText(String text) {
     return Container(
       padding: EdgeInsets.fromLTRB(25.0, 0.0, 25.0, 5.0),
-      child: Text(text)
+      child: Text(
+        text,
+        style: Styles.textDefault
+        )
     );
   }
 
