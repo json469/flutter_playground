@@ -1,6 +1,6 @@
 # flutter_playground
 
-A new Flutter project.
+This project is based on [SeeNickCode's Flutter Crash Course](https://github.com/seenickcode/fluttercrashcourse-lessons)
 
 ## Getting Started
 
