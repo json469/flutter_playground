@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'models/location.dart';
 import 'location_detail.dart';
 import 'styles.dart';
+import 'dart:async';
 
 class LocationList extends StatefulWidget {
   @override
@@ -10,7 +11,8 @@ class LocationList extends StatefulWidget {
 
 class _LocationListState extends State<LocationList> {
 
-  List<Location> locations;
+  List<Location> locations = [];
+  bool loading = false;
 
   @override
   void initState() {
@@ -23,18 +25,44 @@ class _LocationListState extends State<LocationList> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Locations")),
-        body: ListView.builder(
-          itemCount: this.locations.length,
-          itemBuilder: _listViewItemBuilder,
-        ),
+        body: RefreshIndicator(
+          onRefresh: loadData,
+          child: Column(children: [
+          renderProgressBar(context),
+          Expanded(child: renderListView(context)),
+          ])
+        )
     );
   }
 
-  loadData() async {
-    final locations = await Location.fetchAll();
-    setState(() {
-      this.locations = locations;
-    });
+  Future<void> loadData() async {
+    if (this.mounted) {
+      setState(() => this.loading = true);
+      Timer(Duration(milliseconds: 3000), () async {
+        final locations = await Location.fetchAll();
+        setState(() {
+          this.locations = locations;
+          this.loading = false;
+        });
+      });
+    }
+  }
+
+  Widget renderProgressBar(BuildContext context) {
+    return (this.loading
+      ? LinearProgressIndicator(
+          value: null,
+          backgroundColor: Colors.white,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey)
+        )
+      : Container());
+  }
+
+  Widget renderListView(BuildContext context) {
+    return ListView.builder(
+      itemCount: this.locations.length,
+      itemBuilder: _listViewItemBuilder,
+    );
   }
 
   Widget _listViewItemBuilder(BuildContext context, int index) {
