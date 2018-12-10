@@ -1,16 +1,39 @@
 import 'package:flutter/material.dart';
 import 'models/location.dart';
-import 'mocks/mock_location.dart';
 import 'styles.dart';
 
-class LocationDetail extends StatelessWidget {
-
+class LocationDetail extends StatefulWidget {
   final int locationID;
   LocationDetail(this.locationID);
+  @override
+  createState() => _LocationDetailState(this.locationID);
+}
+
+
+class _LocationDetailState extends State<LocationDetail> {
+
+  final int locationID;
+  Location location = Location.blank();
+  _LocationDetailState(this.locationID);
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    final location = await Location.fetchByID(this.locationID);
+
+    if (this.mounted) {
+      setState(() {
+        this.location = location;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    var location = MockLocation.fetch(this.locationID);
     return Scaffold(
       appBar: AppBar(
         title: Text(location.name)),
@@ -24,7 +47,7 @@ class LocationDetail extends StatelessWidget {
 
   List<Widget> _renderBody(BuildContext context, Location location) {
     var result = List<Widget>();
-    result.add(_bannerImage(location.url, 170.0));
+    result.add(_bannerImage(location.url, 200.0));
     result.addAll(_renderFacts(context, location));
     return result;
   }
@@ -60,9 +83,17 @@ class LocationDetail extends StatelessWidget {
   }
 
   Widget _bannerImage(String url, double height) {
+    Image image;
+    try {
+      if (url.isNotEmpty) {
+        image = Image.network(url, fit: BoxFit.fitWidth);
+      }
+    } catch (e) {
+      print("Could not load image $url");
+    }
     return Container(
       constraints: BoxConstraints.tightFor(height: height),
-      child: Image.network(url, fit: BoxFit.fitWidth),
+      child: image,
     );
   }
 }
